@@ -53,6 +53,34 @@ import sys
 # calls the print_words() and print_top() functions which you must define.
 
 
+def helper(filename):
+    word_count = {}
+    with open(filename, 'r') as file:
+        words = file.read().split(' ')
+        value = 1
+    for word in words:
+        if word in word_count:
+            word_count[word] = value
+        else:
+            word_count[word] = value + 1
+    return word_count
+
+
+def print_words(filename):
+    words = helper(filename)
+    print(words)
+
+
+def print_top(word_count):
+    words = helper(filename)
+    words_tup = list(words.items())
+    def get_count(element):
+        return element[1]
+    sorted(words_tup, key = get_count, reverse = True)
+    for item in words_tup[0:20]:
+        print(item[0])
+
+
 def main():
     if len(sys.argv) != 3:
         print 'usage: python wordcount.py {--count | --topcount} file'
