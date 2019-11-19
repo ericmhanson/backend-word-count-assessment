@@ -71,7 +71,7 @@ def print_words(filename):
     print(words)
 
 
-def print_top(word_count):
+def print_top(word_count, filename):
     words = helper(filename)
     words_tup = list(words.items())
     def get_count(element):
