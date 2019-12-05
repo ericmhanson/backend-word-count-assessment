@@ -55,35 +55,33 @@ import sys
 
 def helper(filename):
     word_count = {}
+    value = 1
     with open(filename, 'r') as file:
-        words = file.read().split(' ')
-        value = 1
-    for word in words:
-        if word in word_count:
-            word_count[word] = value
-        else:
-            word_count[word] = value + 1
+        for line in file:
+            for word in line.split():
+                if word in word_count:
+                    word_count[word] += 1
+                else:
+                    word_count[word] = 1
     return word_count
 
 
 def print_words(filename):
     words = helper(filename)
-    print(words)
+    for i in sorted(words):
+        print ('{} : {}'.format(i, words[i]))
 
 
-def print_top(word_count, filename):
+def print_top(filename):
     words = helper(filename)
-    words_tup = list(words.items())
-    def get_count(element):
-        return element[1]
-    sorted(words_tup, key = get_count, reverse = True)
-    for item in words_tup[0:20]:
-        print(item[0])
+    sorted_words = sorted(words.items(), key = lambda v: v[1], reverse = True)
+    for i in sorted_words[0:20]:
+        print('{} : {}'.format(i[0], i[1]))
 
 
 def main():
     if len(sys.argv) != 3:
-        print 'usage: python wordcount.py {--count | --topcount} file'
+        print ('usage: python wordcount.py {--count | --topcount} file')
         sys.exit(1)
 
     option = sys.argv[1]
@@ -93,7 +91,7 @@ def main():
     elif option == '--topcount':
         print_top(filename)
     else:
-        print 'unknown option: ' + option
+        print ('unknown option: ' + option)
         sys.exit(1)
 
 
