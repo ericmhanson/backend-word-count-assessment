@@ -53,9 +53,35 @@ import sys
 # calls the print_words() and print_top() functions which you must define.
 
 
+def helper(filename):
+    word_count = {}
+    value = 1
+    with open(filename, 'r') as file:
+        for line in file:
+            for word in line.split():
+                if word in word_count:
+                    word_count[word] += 1
+                else:
+                    word_count[word] = 1
+    return word_count
+
+
+def print_words(filename):
+    words = helper(filename)
+    for i in sorted(words):
+        print ('{} : {}'.format(i, words[i]))
+
+
+def print_top(filename):
+    words = helper(filename)
+    sorted_words = sorted(words.items(), key = lambda v: v[1], reverse = True)
+    for i in sorted_words[0:20]:
+        print('{} : {}'.format(i[0], i[1]))
+
+
 def main():
     if len(sys.argv) != 3:
-        print 'usage: python wordcount.py {--count | --topcount} file'
+        print ('usage: python wordcount.py {--count | --topcount} file')
         sys.exit(1)
 
     option = sys.argv[1]
@@ -65,7 +91,7 @@ def main():
     elif option == '--topcount':
         print_top(filename)
     else:
-        print 'unknown option: ' + option
+        print ('unknown option: ' + option)
         sys.exit(1)
 
 
